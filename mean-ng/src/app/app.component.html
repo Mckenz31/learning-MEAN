@@ -1,1 +1,5 @@
-<app-post-create></app-post-create>
+<app-header></app-header>
+<main>
+  <app-post-create (post)="addPost($event)"></app-post-create>
+  <app-post-list [posts]="postCreated"></app-post-list>
+</main>

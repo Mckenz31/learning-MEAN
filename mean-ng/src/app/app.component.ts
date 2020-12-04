@@ -7,4 +7,9 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'mean-ng';
+
+  postCreated=[];
+  addPost(data){
+    this.postCreated.push(data)
+  }
 }
