@@ -8,9 +8,4 @@ import { Post } from './posts/post.model';
 })
 export class AppComponent {
   title = 'mean-ng';
-
-  postCreated:Post[]=[];
-  addPost(data){
-    this.postCreated.push(data);
-  }
 }
