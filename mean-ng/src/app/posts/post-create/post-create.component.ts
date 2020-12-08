@@ -20,7 +20,7 @@ export class PostCreateComponent implements OnInit {
       return;
     }
     const newPost:Post = {
-      "title": f.value.postTitle, "content": f.value.postContent
+      "id": null, "title": f.value.postTitle, "content": f.value.postContent
     }
     this.postSrv.createPost(newPost);
     f.resetForm();
