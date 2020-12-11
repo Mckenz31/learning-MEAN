@@ -1,6 +1,16 @@
 const express = require('express'); //Importing
+const mongoose = require('mongoose');
+
 const bodyParser = require("body-parser");
 const app = express(); //Big chain of middleware
+const postModel = require('./models/post');
+
+mongoose.connect("LINK TO MONGODB") //I'm connecting with the cloud
+  .then(()=>{
+    console.log("Connected to database")
+  }).catch(()=>{
+    console.log("Some error occurred");
+  })
 
 app.use(bodyParser.json());
 //The browser requests for the favicon
@@ -17,12 +27,17 @@ app.get('/favicon.ico', function(req, res) {
   res.end();
 });
 
+//Getting the posts from angular and sending it to mongoDB
 app.post('/posts',(req,res,next) => {
-  const postRecieved = req.body;
+  const post = new postModel({
+    title: req.body.title,
+    content: req.body.content
+  });
+  post.save();
   res.status(201).json({
     message: "Post created"
   })
-  console.log(postRecieved);
+  console.log(post);
 })
 
 app.use('/posts',(req, res, next) => {
