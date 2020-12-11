@@ -5,7 +5,7 @@ const bodyParser = require("body-parser");
 const app = express(); //Big chain of middleware
 const postModel = require('./models/post');
 
-mongoose.connect("LINK TO MONGODB") //I'm connecting with the cloud
+mongoose.connect("LINK TO MONGODB")
   .then(()=>{
     console.log("Connected to database")
   }).catch(()=>{
@@ -40,16 +40,20 @@ app.post('/posts',(req,res,next) => {
   console.log(post);
 })
 
-app.use('/posts',(req, res, next) => {
-  const posts = [
-    {id:"jsndj23", title:"First Post", content: "This is my first post"},
-    {id:'edfjn32', title:"Second Post", content: "This is my second post"},
-    {id:'eoskdo1', title:"Third Post", content: "This is my third post"}
-  ]
-  res.status(200).json({
-    message: "Fetched Posts",
-    posts: posts
+app.get('/posts',(req, res, next) => {
+  postModel.find().then(postData => {
+    res.status(200).json({
+      message: "Fetched Posts",
+      posts: postData
+    });
   });
 });
+
+app.delete("/posts/:id", (req, res, next) => {
+  postModel.deleteOne({_id: req.params.id}).then(data => {
+    res.status(200).json({ message: "Post deleted!" });
+    console.log(data);
+  })
+})
 
 module.exports = app;
