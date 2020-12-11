@@ -16,11 +16,13 @@ export class PostService implements OnInit{
 
   ngOnInit(){}
 
-  createPost(data){
-    this.http.post<{message:string, posts:Post[]}>('http://localhost:3000/posts', data ).subscribe((response) => {
+  createPost(title, content){
+    const post: Post = { id: null, title: title, content: content };
+    this.http.post<{message:string, postId:string}>('http://localhost:3000/posts', post ).subscribe((response) => {
       console.log(response.message);
-      this.posts.push(data);
+      this.posts.push(post);
       this.postAdded.next([...this.posts]);
+      post.id = response.postId
     })
   }
 

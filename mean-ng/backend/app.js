@@ -33,10 +33,12 @@ app.post('/posts',(req,res,next) => {
     title: req.body.title,
     content: req.body.content
   });
-  post.save();
-  res.status(201).json({
-    message: "Post created"
-  })
+  post.save().then(response => {
+    res.status(201).json({
+      message: "Post Created",
+      postId: response._id
+    })
+  });
   console.log(post);
 })
 
