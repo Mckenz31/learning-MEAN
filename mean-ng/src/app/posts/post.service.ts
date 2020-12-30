@@ -26,6 +26,14 @@ export class PostService implements OnInit{
     })
   }
 
+  //Updating the Post
+  updatePost(id, title, content){
+    const upPost: Post = { id: id, title: title, content: content };
+    this.http.put('http://localhost:3000/posts/' +id, upPost).subscribe((response) => {
+      console.log(response);
+    })
+  }
+
   fetchPosts(){
     this.http.get<{message:string, posts:any}>('http://localhost:3000/posts')
     //Transforming _id to id before we represent our data
@@ -42,6 +50,11 @@ export class PostService implements OnInit{
       this.posts = postData
       this.postAdded.next([...this.posts]);
     })
+  }
+
+  //The post you get for editing
+  getPost(id:string){
+    return this.http.get<{_id:string, title:string, content:string}>('http://localhost:3000/posts/' +id);
   }
 
   listPosts(){

@@ -58,4 +58,28 @@ app.delete("/posts/:id", (req, res, next) => {
   })
 })
 
+//Updating an existing post
+app.put("/posts/:id", (req, res, next) => {
+  const upPost = new postModel({
+    _id: req.params.id,
+    title: req.body.title,
+    content: req.body.content
+  });
+  postModel.updateOne({_id: req.params.id}, upPost).then(response => {
+    res.status(200).json({message: "Post updated"});
+  })
+})
+
+//Ensuring that the post details on the create page during edit mode remains on reload
+//Basically getting the post that is to be editted
+app.get("/posts/:id", (req, res, next) => {
+  postModel.findById({_id:req.params.id}).then(response => {
+    if(response){
+      res.status(200).json(response);
+    }else{
+      res.status(404);
+    }
+  })
+});
+
 module.exports = app;
